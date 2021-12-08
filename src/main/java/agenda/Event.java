@@ -1,6 +1,8 @@
 package agenda;
 
 import java.time.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Event {
 
@@ -8,17 +10,16 @@ public class Event {
      * The myTitle of this event
      */
     private String myTitle;
-    
+
     /**
      * The starting time of the event
      */
     private LocalDateTime myStart;
 
     /**
-     * The durarion of the event 
+     * The durarion of the event
      */
     private Duration myDuration;
-
 
     /**
      * Constructs an event
@@ -40,10 +41,9 @@ public class Event {
      * @return true if the event occurs on that day, false otherwise
      */
     public boolean isInDay(LocalDate aDay) {
-        // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        boolean result = false;
     }
-   
+
     /**
      * @return the myTitle
      */
@@ -58,7 +58,6 @@ public class Event {
         return myStart;
     }
 
-
     /**
      * @return the myDuration
      */
@@ -66,6 +65,4 @@ public class Event {
         return myDuration;
     }
 
-   
-    
 }
