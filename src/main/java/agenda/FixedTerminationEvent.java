@@ -11,6 +11,9 @@ import java.time.temporal.ChronoUnit;
  */
 public class FixedTerminationEvent extends RepetitiveEvent {
 
+    private LocalDate terminationInclusive;
+    
+    private long numberOfOccurrences = -1;
     
     /**
      * Constructs a fixed terminationInclusive event ending at a given date
@@ -27,10 +30,8 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      * @param terminationInclusive the date when this event ends
      */
     public FixedTerminationEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency, LocalDate terminationInclusive) {
-         super(title, start, duration, frequency);
-        // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
-
+        super(title, start, duration, frequency);
+        this.terminationInclusive = terminationInclusive;
     }
 
     /**
@@ -49,22 +50,27 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      */
     public FixedTerminationEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency, long numberOfOccurrences) {
         super(title, start, duration, frequency);
-        // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+        this.numberOfOccurrences = numberOfOccurrences;
     }
 
     /**
      *
      * @return the termination date of this repetitive event
      */
-    public LocalDate getTerminationDate() {
-        // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");   
+    public LocalDate getTerminationDate() throws Exception {
+        if(terminationInclusive == null){
+            throw new Exception("Il n'y a pas de date de fin");
+        }else{
+            return terminationInclusive;
+        }
     }
 
-    public long getNumberOfOccurrences() {
-        // TODO : implémenter cette méthode
-        throw new UnsupportedOperationException("Pas encore implémenté");
+    public long getNumberOfOccurrences() throws Exception {
+        if(numberOfOccurrences == -1){
+            throw new Exception("Il n'y a pas de date de fin");
+        }else{
+            return numberOfOccurrences;
+        }
     }
         
 }
