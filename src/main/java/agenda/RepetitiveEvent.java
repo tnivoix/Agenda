@@ -8,11 +8,11 @@ import java.time.temporal.ChronoUnit;
  * Description : A repetitive Event
  */
 public class RepetitiveEvent extends Event {
-    
+
     private ChronoUnit frequency;
-    
-    private List<LocalDate> exceptions;
-    
+
+    private List<LocalDate> exceptions = new ArrayList<>();
+
     /**
      * Constructs a repetitive event
      *
@@ -46,6 +46,25 @@ public class RepetitiveEvent extends Event {
      */
     public ChronoUnit getFrequency() {
         return frequency;
+    }
+
+    @Override
+    public boolean isInDay(LocalDate aDay) {
+        switch (frequency) {
+            case DAYS:
+                return aDay.isAfter(getStart().toLocalDate()) && !exceptions.contains(aDay);
+            case WEEKS:
+                long debutW = getStart().toLocalDate().getDayOfWeek().getValue();
+                long finW = getStart().plus(getDuration()).toLocalDate().getDayOfWeek().getValue();
+                return aDay.getDayOfWeek().getValue()>=debutW && aDay.getDayOfWeek().getValue()<=finW && !exceptions.contains(aDay);
+            case MONTHS:
+                int debutY = getStart().toLocalDate().getDayOfMonth();
+                int finY = getStart().plus(getDuration()).toLocalDate().getDayOfMonth();
+                return aDay.getDayOfMonth()>=debutY && aDay.getDayOfMonth()<=finY && !exceptions.contains(aDay);
+            default:
+                return false;
+
+        }
     }
 
 }

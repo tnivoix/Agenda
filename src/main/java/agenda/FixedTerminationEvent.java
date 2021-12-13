@@ -72,5 +72,24 @@ public class FixedTerminationEvent extends RepetitiveEvent {
             return numberOfOccurrences;
         }
     }
+
+    @Override
+    public boolean isInDay(LocalDate aDay) {
+        if(terminationInclusive != null) {
+            return aDay.isBefore(terminationInclusive.plusDays(1)) && super.isInDay(aDay);
+        } else {
+            LocalDate tmp = getStart().toLocalDate();
+            int nb = 0;
+            while(tmp.isBefore(aDay)){
+                if(super.isInDay(tmp)){
+                    nb++;
+                }
+                tmp.plus(getFrequency().getDuration());
+            }
+            return nb < numberOfOccurrences && super.isInDay(aDay);
+        }
+    }
+    
+    
         
 }

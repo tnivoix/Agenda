@@ -29,12 +29,12 @@ public class FixedTerminationEventTest {
     FixedTerminationEvent fixedRepetitions = new FixedTerminationEvent("Fixed termination weekly", nov_1__2020_22_30, min_120, ChronoUnit.WEEKS, 10);
 
     @Test
-    public void canCalculateNumberOfOccurrencesFromTerminationDate() {
+    public void canCalculateNumberOfOccurrencesFromTerminationDate() throws Exception {
         assertEquals(10, fixedTermination.getNumberOfOccurrences(), "Cet événement doits se répéter 10 fois");
     }
 
     @Test
-    public void canCalculateTerminationDateFromNumberOfOccurrences() {
+    public void canCalculateTerminationDateFromNumberOfOccurrences() throws Exception {
         LocalDate termination = LocalDate.of(2021, 1, 3);
         assertEquals(termination, fixedRepetitions.getTerminationDate(), "Cet événement doits se terminer le 3 janvier");
     }

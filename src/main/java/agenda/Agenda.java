@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Agenda {
 
-    List<Event> eventList;
+    List<Event> eventList = new ArrayList<>();
 
     /**
      * Adds an event to this agenda

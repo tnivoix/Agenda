@@ -39,7 +39,7 @@ public class AgendaTest {
     RepetitiveEvent neverEnding = new RepetitiveEvent("Never Ending", nov_1__2020_22_30, min_120, ChronoUnit.DAYS);
 
     @BeforeEach
-    public void setUp() {
+    public void setUp() throws Exception {
         agenda = new Agenda();
         agenda.addEvent(simple);
         agenda.addEvent(fixedTermination);
