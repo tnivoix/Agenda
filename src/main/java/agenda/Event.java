@@ -41,7 +41,6 @@ public class Event {
      * @return true if the event occurs on that day, false otherwise
      */
     public boolean isInDay(LocalDate aDay) {
-        boolean result = false;
     }
 
     /**
