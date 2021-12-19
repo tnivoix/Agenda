@@ -1,6 +1,7 @@
 package agenda;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -32,7 +33,7 @@ public class Agenda {
      */
     public List<Event> eventsInDay(LocalDate day) {
         List<Event> events = new ArrayList<>();
-        for (Event e : events) {
+        for (Event e : eventList) {
             if (e.isInDay(day)) {
                 events.add(e);
             }
@@ -48,7 +49,7 @@ public class Agenda {
      */
     public List<Event> findByTitle(String title) {
         List<Event> events = new ArrayList<>();
-        for (Event e : events) {
+        for (Event e : eventList) {
             if (e.getTitle().contains(title)) {
                 events.add(e);
             }
@@ -62,12 +63,19 @@ public class Agenda {
      * @param e L'événement à tester (on se limitera aux événements simples)
      * @return vrai s’il y a de la place dans l'agenda pour cet événement
      */
-    public boolean isFreeFor(Event e) {
-        LocalDate dayStart = e.getStart().toLocalDate();
-        LocalDate dayEnd = e.getStart().plus(e.getDuration()).toLocalDate();
+    public boolean isFreeFor(Event event) {
+        LocalDateTime start = event.getStart().minusSeconds(1);
+        LocalDateTime end = event.getStart().plus(event.getDuration()).plusSeconds(1);
         // faut pas qu'il soit tous les events compris entre début et fin, et aucun isInDay dans cette durée
         // tous les év. !isInDay, des jours de l'évent il faut finir avant le début et commencer après la fin de l'event
-        if()
+        for (Event e : eventList){
+            boolean full = e.getStart().isBefore(start) && e.getStart().plus(e.getDuration()).isAfter(end);
+            boolean startIn = e.getStart().isAfter(start) && e.getStart().isBefore(end);
+            boolean endIn = e.getStart().plus(e.getDuration()).isAfter(start) && e.getStart().plus(e.getDuration()).isBefore(end);
+            if (full || startIn || endIn){
+                return false;
+            }
         }
+        return true;
     }
 }

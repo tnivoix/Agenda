@@ -50,21 +50,33 @@ public class RepetitiveEvent extends Event {
 
     @Override
     public boolean isInDay(LocalDate aDay) {
+        LocalDate tmp = aDay;
+        int nb = 0;
+        while (tmp.isAfter(getStart().toLocalDate())) {
+            if (tmp.minus(1, getFrequency()).isAfter(getStart().toLocalDate().minusDays(1))) {
+                tmp = tmp.minus(1, getFrequency());
+            } else {
+                break;
+            }
+        }
+        return super.isInDay(tmp) && !exceptions.contains(aDay);
+        /*
         switch (frequency) {
             case DAYS:
-                return aDay.isAfter(getStart().toLocalDate()) && !exceptions.contains(aDay);
+                return aDay.isAfter(getStart().toLocalDate().minusDays(1)) && !exceptions.contains(aDay);
             case WEEKS:
                 long debutW = getStart().toLocalDate().getDayOfWeek().getValue();
                 long finW = getStart().plus(getDuration()).toLocalDate().getDayOfWeek().getValue();
-                return aDay.getDayOfWeek().getValue()>=debutW && aDay.getDayOfWeek().getValue()<=finW && !exceptions.contains(aDay);
+                return aDay.getDayOfWeek().getValue() >= debutW && aDay.getDayOfWeek().getValue() <= finW && !exceptions.contains(aDay);
             case MONTHS:
                 int debutY = getStart().toLocalDate().getDayOfMonth();
                 int finY = getStart().plus(getDuration()).toLocalDate().getDayOfMonth();
-                return aDay.getDayOfMonth()>=debutY && aDay.getDayOfMonth()<=finY && !exceptions.contains(aDay);
+                return aDay.getDayOfMonth() >= debutY && aDay.getDayOfMonth() <= finY && !exceptions.contains(aDay);
             default:
                 return false;
 
         }
+         */
     }
 
 }

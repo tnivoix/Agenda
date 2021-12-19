@@ -67,4 +67,11 @@ public class Event {
         return myDuration;
     }
 
+    @Override
+    public String toString() {
+        return getTitle(); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    
+
 }

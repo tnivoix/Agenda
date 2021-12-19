@@ -12,9 +12,9 @@ import java.time.temporal.ChronoUnit;
 public class FixedTerminationEvent extends RepetitiveEvent {
 
     private LocalDate terminationInclusive;
-    
+
     private long numberOfOccurrences = -1;
-    
+
     /**
      * Constructs a fixed terminationInclusive event ending at a given date
      *
@@ -46,7 +46,8 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      * <LI>ChronoUnit.WEEKS for weekly repetitions</LI>
      * <LI>ChronoUnit.MONTHS for monthly repetitions</LI>
      * </UL>
-     * @param numberOfOccurrences the number of occurrences of this repetitive event
+     * @param numberOfOccurrences the number of occurrences of this repetitive
+     * event
      */
     public FixedTerminationEvent(String title, LocalDateTime start, Duration duration, ChronoUnit frequency, long numberOfOccurrences) {
         super(title, start, duration, frequency);
@@ -57,39 +58,31 @@ public class FixedTerminationEvent extends RepetitiveEvent {
      *
      * @return the termination date of this repetitive event
      */
-    public LocalDate getTerminationDate() throws Exception {
-        if(terminationInclusive == null){
-            throw new Exception("Il n'y a pas de date de fin");
-        }else{
+    public LocalDate getTerminationDate() {
+        if (terminationInclusive == null) {
+            return getStart().toLocalDate().plus(numberOfOccurrences-1, getFrequency());
+        } else {
             return terminationInclusive;
         }
     }
 
-    public long getNumberOfOccurrences() throws Exception {
-        if(numberOfOccurrences == -1){
-            throw new Exception("Il n'y a pas de date de fin");
-        }else{
+    public long getNumberOfOccurrences() {
+        if (terminationInclusive != null) {
+            LocalDate tmp = getStart().toLocalDate();
+            int nb = 0;
+            while (tmp.isBefore(terminationInclusive.plusDays(1))) {
+                nb++;
+                tmp = tmp.plus(1,getFrequency());
+            }
+            return nb;
+        } else {
             return numberOfOccurrences;
         }
     }
 
     @Override
     public boolean isInDay(LocalDate aDay) {
-        if(terminationInclusive != null) {
-            return aDay.isBefore(terminationInclusive.plusDays(1)) && super.isInDay(aDay);
-        } else {
-            LocalDate tmp = getStart().toLocalDate();
-            int nb = 0;
-            while(tmp.isBefore(aDay)){
-                if(super.isInDay(tmp)){
-                    nb++;
-                }
-                tmp.plus(getFrequency().getDuration());
-            }
-            return nb < numberOfOccurrences && super.isInDay(aDay);
-        }
+        return aDay.isBefore(getTerminationDate().plusDays(1)) && super.isInDay(aDay);
     }
-    
-    
-        
+
 }
