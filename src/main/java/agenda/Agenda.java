@@ -65,14 +65,8 @@ public class Agenda {
      */
     public boolean isFreeFor(Event event) {
         LocalDateTime start = event.getStart().minusSeconds(1);
-        LocalDateTime end = event.getStart().plus(event.getDuration()).plusSeconds(1);
-        // faut pas qu'il soit tous les events compris entre début et fin, et aucun isInDay dans cette durée
-        // tous les év. !isInDay, des jours de l'évent il faut finir avant le début et commencer après la fin de l'event
-        for (Event e : eventList){
-            boolean full = e.getStart().isBefore(start) && e.getStart().plus(e.getDuration()).isAfter(end);
-            boolean startIn = e.getStart().isAfter(start) && e.getStart().isBefore(end);
-            boolean endIn = e.getStart().plus(e.getDuration()).isAfter(start) && e.getStart().plus(e.getDuration()).isBefore(end);
-            if (full || startIn || endIn){
+        LocalDateTime end = event.getStart().plus(event.getDuration()).plusSeconds(1);for (Event e : eventList){
+            if (e.getStart().isBefore(end) && e.getStart().plus(e.getDuration()).isAfter(start)){
                 return false;
             }
         }
